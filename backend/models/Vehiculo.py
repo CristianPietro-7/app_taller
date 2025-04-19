@@ -15,6 +15,9 @@ class Vehiculo(db.Model):
     # Clave Foránea: cada vehículo pertenece a una categoría
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.idCategoria'), nullable=False)
 
+    # Relación inversa con Reparacion
+    reparaciones = db.relationship('Reparacion', backref='vehiculo', lazy=True)
+
     def __init__(self, patente, marca, modelo, year, nro_chasis, nro_motor, categoria_id):
         self.patente = patente
         self.marca = marca

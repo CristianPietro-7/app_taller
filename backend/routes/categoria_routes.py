@@ -14,7 +14,7 @@ def get_categoria():
 
 @categoria.route('/categoria', methods=['POST'])
 @token_required(allowed_roles=['admin'])  # solo admin puede crear
-def add_client():
+def add_categoria():
     data = request.get_json()
     
     if not data or not all(key in data for key in ['name', 'descripcion']):
@@ -33,5 +33,5 @@ def add_client():
 
     except Exception as e:
         db.session.rollback()
-        print(f"Error inesperado: {e}")  # Ver el error en la terminal
+        print(f"Error inesperado: {e}")  
         return jsonify({'error': 'Error al agregar el categoría'}), 500
