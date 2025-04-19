@@ -4,6 +4,7 @@ from flask_cors import CORS
 from models.db import db
 from routes.vehiculo_routes import vehiculo
 from routes.categoria_routes import categoria
+from routes.auth_routes import auth_bp
 
 
 app = Flask(__name__)
@@ -12,17 +13,20 @@ CORS(app)
 
 app.register_blueprint(vehiculo)
 app.register_blueprint(categoria)
+app.register_blueprint(auth_bp)
 
 
 app.config["SQLALCHEMY_DATABASE_URI"]= DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['JSON_SORT_KEYS'] = False
 
 db.init_app(app)
 
 with app.app_context():
     from models.Vehiculo import Vehiculo
     from models.Categoria import Categoria
-    # db.drop_all()
+    from models.Usuarios import Usuario
+    db.drop_all()
     db.create_all()
 
 if __name__ == '__main__':

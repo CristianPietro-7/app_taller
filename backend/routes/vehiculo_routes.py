@@ -2,14 +2,14 @@ from flask import Blueprint, jsonify, request
 from models.db import db
 from models.Vehiculo import Vehiculo
 
-vehiculo = Blueprint('vehiculo', __name__)
+vehiculo = Blueprint('vehiculo', __name__, url_prefix='/api')
 
-@vehiculo.route('/api/vehiculo')
+@vehiculo.route('/vehiculo')
 def get_vehiculos():
     vehiculos = Vehiculo.query.all()
     return jsonify([vehiculo.serialize() for vehiculo in vehiculos])
 
-@vehiculo.route('/api/vehiculo', methods=['POST'])
+@vehiculo.route('/vehiculo', methods=['POST'])
 def add_vehiculo():
     data = request.get_json()
 
@@ -28,7 +28,7 @@ def add_vehiculo():
         print(f"Error inesperado: {e}")  # Ver el error en la terminal
         return jsonify({'error': 'Error al agregar el vehiculo'}), 500
     
-@vehiculo.route('/api/vehiculo/<int:id>', methods=['DELETE'])
+@vehiculo.route('/vehiculo/<int:id>', methods=['DELETE'])
 def del_vehiculo(id):
     vehiculo = Vehiculo.query.get(id)
 

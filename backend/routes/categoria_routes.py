@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify, request
 from models.db import db
 from models.Categoria import Categoria
-categoria = Blueprint('categoria', __name__)
+from utils.token_required import token_required
 
-@categoria.route('/api/categorias')
+categoria = Blueprint('categoria', __name__, url_prefix='/api')
+
+@categoria.route('/categorias')
+@token_required(allowed_roles=['admin', 'mecanico'])  # ambos pueden ver
 def get_categoria():
     categorias = Categoria.query.all()
     return jsonify([categoria.serialize() for categoria in categorias])
 
-@categoria.route('/api/categoria', methods=['POST'])
+
+@categoria.route('/categoria', methods=['POST'])
+@token_required(allowed_roles=['admin'])  # solo admin puede crear
 def add_client():
     data = request.get_json()
     
