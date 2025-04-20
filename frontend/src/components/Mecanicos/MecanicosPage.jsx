@@ -15,45 +15,45 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-function VehiculoList() {
-  const [vehiculos, setVehiculos] = useState([]);
+function MecanicosList() {
+  const [mecanicos, setMecanicos] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/vehiculo")
+    fetch("http://localhost:5000/api/mecanico")
       .then((res) => res.json())
       .then((data) => {
-        setVehiculos(data);
+        setMecanicos(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error al obtener vehiculos:", error);
+        console.error("Error al obtener mecanicos:", error);
         setLoading(false);
       });
   }, []);
 
   const handleEditar = (id) => {
-    console.log("Editar vehículo con ID:", id);
-    navigate(`/editar-vehiculo/${id}`); 
+    console.log("Editar mecanico con ID:", id);
+    // navigate(`/editar-mecanico/${id}`); 
   };
 
   const handleEliminar = (id) => {
-    console.log("Eliminar vehículo con ID:", id);
+    console.log("Eliminar mecanico con ID:", id);
     // lógica para eliminar
   };
 
   return (
     <Box p={3}>
       <Typography variant="h5" gutterBottom>
-        Lista de Vehículos
+        Lista de Mecanicos
       </Typography>
 
       <Stack direction="row" spacing={2} mb={2}>
         <Button variant="contained" color="primary" onClick={() => navigate("/dashboard")}>
           Volver
         </Button>
-        <Button variant="contained" color="success" onClick={() => navigate("/crear-vehiculo")}>
+        <Button variant="contained" color="success" onClick={() => navigate("/crear-mecanico")}>
           Crear 
         </Button>
       </Stack>
@@ -68,34 +68,30 @@ function VehiculoList() {
             <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Patente</TableCell>
-                <TableCell>Marca</TableCell>
-                <TableCell>Modelo</TableCell>
-                <TableCell>Año</TableCell>
-                <TableCell>Nro Chasis</TableCell>
-                <TableCell>Nro Motor</TableCell>
-                <TableCell>Categoria</TableCell>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Apellido</TableCell>
+                <TableCell>Telefono</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Especialidad</TableCell>
                 <TableCell>Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {vehiculos.map((vehiculo) => (
-                <TableRow key={vehiculo.idVehiculo} hover>
-                  <TableCell>{vehiculo.idVehiculo}</TableCell>
-                  <TableCell>{vehiculo.patente}</TableCell>
-                  <TableCell>{vehiculo.marca}</TableCell>
-                  <TableCell>{vehiculo.modelo}</TableCell>
-                  <TableCell>{vehiculo.year}</TableCell>
-                  <TableCell>{vehiculo.nro_chasis}</TableCell>
-                  <TableCell>{vehiculo.nro_motor}</TableCell>
-                  <TableCell>{vehiculo.categoria}</TableCell>
+              {mecanicos.map((mecanico) => (
+                <TableRow key={mecanico.idMecanico} hover>
+                  <TableCell>{mecanico.idMecanico}</TableCell>
+                  <TableCell>{mecanico.nombre}</TableCell>
+                  <TableCell>{mecanico.apellido}</TableCell>
+                  <TableCell>{mecanico.telefono}</TableCell>
+                  <TableCell>{mecanico.email}</TableCell>
+                  <TableCell>{mecanico.especialidad}</TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => handleEditar(vehiculo.idVehiculo)}
+                        onClick={() => handleEditar(mecanico.idMecanico)}
                       >
                         Editar
                       </Button>
@@ -103,7 +99,7 @@ function VehiculoList() {
                         variant="outlined"
                         color="error"
                         size="small"
-                        onClick={() => handleEliminar(vehiculo.idVehiculo)}
+                        onClick={() => handleEliminar(mecanico.idMecanico)}
                       >
                         Eliminar
                       </Button>
@@ -119,5 +115,4 @@ function VehiculoList() {
   );
 }
 
-export default VehiculoList;
-
+export default MecanicosList;

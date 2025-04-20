@@ -15,45 +15,45 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-function VehiculoList() {
-  const [vehiculos, setVehiculos] = useState([]);
+function ReparacionesList() {
+  const [reparaciones, setReparaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/vehiculo")
+    fetch("http://localhost:5000/api/reparaciones")
       .then((res) => res.json())
       .then((data) => {
-        setVehiculos(data);
+        setReparaciones(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error al obtener vehiculos:", error);
+        console.error("Error al obtener reparaciones:", error);
         setLoading(false);
       });
   }, []);
 
   const handleEditar = (id) => {
-    console.log("Editar vehículo con ID:", id);
-    navigate(`/editar-vehiculo/${id}`); 
+    console.log("Editar reparaciones con ID:", id);
+    // navigate(`/editar-reparacion/${id}`); 
   };
 
   const handleEliminar = (id) => {
-    console.log("Eliminar vehículo con ID:", id);
+    console.log("Eliminar reparaciones con ID:", id);
     // lógica para eliminar
   };
 
   return (
     <Box p={3}>
       <Typography variant="h5" gutterBottom>
-        Lista de Vehículos
+        Lista de Reparaciones
       </Typography>
 
       <Stack direction="row" spacing={2} mb={2}>
         <Button variant="contained" color="primary" onClick={() => navigate("/dashboard")}>
           Volver
         </Button>
-        <Button variant="contained" color="success" onClick={() => navigate("/crear-vehiculo")}>
+        <Button variant="contained" color="success" onClick={() => navigate("/crear-reparaciones")}>
           Crear 
         </Button>
       </Stack>
@@ -68,34 +68,27 @@ function VehiculoList() {
             <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Patente</TableCell>
-                <TableCell>Marca</TableCell>
-                <TableCell>Modelo</TableCell>
-                <TableCell>Año</TableCell>
-                <TableCell>Nro Chasis</TableCell>
-                <TableCell>Nro Motor</TableCell>
-                <TableCell>Categoria</TableCell>
+                <TableCell>Estado</TableCell>
+                <TableCell>Descripción</TableCell>
+                <TableCell>Vehiculo</TableCell>
+                <TableCell>Mecánico</TableCell>
                 <TableCell>Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {vehiculos.map((vehiculo) => (
-                <TableRow key={vehiculo.idVehiculo} hover>
-                  <TableCell>{vehiculo.idVehiculo}</TableCell>
-                  <TableCell>{vehiculo.patente}</TableCell>
-                  <TableCell>{vehiculo.marca}</TableCell>
-                  <TableCell>{vehiculo.modelo}</TableCell>
-                  <TableCell>{vehiculo.year}</TableCell>
-                  <TableCell>{vehiculo.nro_chasis}</TableCell>
-                  <TableCell>{vehiculo.nro_motor}</TableCell>
-                  <TableCell>{vehiculo.categoria}</TableCell>
+              {reparaciones.map((reparacion) => (
+                <TableRow key={reparacion.idReparacion} hover>
+                  <TableCell>{reparacion.estado}</TableCell>
+                  <TableCell>{reparacion.descripcion}</TableCell>
+                  <TableCell>{reparacion.idVehiculo}</TableCell>
+                  <TableCell>{reparacion.idMecanico}</TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => handleEditar(vehiculo.idVehiculo)}
+                        onClick={() => handleEditar(reparacion.idReparacion)}
                       >
                         Editar
                       </Button>
@@ -103,7 +96,7 @@ function VehiculoList() {
                         variant="outlined"
                         color="error"
                         size="small"
-                        onClick={() => handleEliminar(vehiculo.idVehiculo)}
+                        onClick={() => handleEliminar(reparacion.idReparacion)}
                       >
                         Eliminar
                       </Button>
@@ -119,5 +112,4 @@ function VehiculoList() {
   );
 }
 
-export default VehiculoList;
-
+export default ReparacionesList;
