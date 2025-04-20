@@ -29,7 +29,7 @@ function CrearVehiculo() {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/categoria");
+        const res = await fetch("http://localhost:5000/api/categorias");
         const data = await res.json();
         setCategorias(data); // asegurate de que `data` sea un array de objetos { idCategoria, name, descripcion }
       } catch (error) {
@@ -67,7 +67,7 @@ function CrearVehiculo() {
     <Box p={3} maxWidth={600} mx="auto">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" gutterBottom>
-          Crear Vehículo
+          Crear 
         </Typography>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
