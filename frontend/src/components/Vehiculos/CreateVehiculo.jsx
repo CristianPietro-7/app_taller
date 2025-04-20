@@ -1,10 +1,21 @@
-// src/pages/CrearVehiculo.jsx
-import { Box, Button, TextField, Typography, Stack, Paper } from "@mui/material";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  Paper,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CrearVehiculo() {
   const navigate = useNavigate();
+  const [categorias, setCategorias] = useState([]);
   const [form, setForm] = useState({
     patente: "",
     marca: "",
@@ -12,8 +23,22 @@ function CrearVehiculo() {
     year: "",
     nro_chasis: "",
     nro_motor: "",
-    categoria: "",
+    categoria_id: "",
   });
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/categoria");
+        const data = await res.json();
+        setCategorias(data); // asegurate de que `data` sea un array de objetos { idCategoria, name, descripcion }
+      } catch (error) {
+        console.error("Error al cargar categorías:", error);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,7 +54,7 @@ function CrearVehiculo() {
       });
 
       if (res.ok) {
-        navigate("/vehiculos"); // redirige a la lista
+        navigate("/vehiculos");
       } else {
         console.error("Error al crear vehículo");
       }
@@ -52,7 +77,24 @@ function CrearVehiculo() {
             <TextField name="year" label="Año" value={form.year} onChange={handleChange} required />
             <TextField name="nro_chasis" label="Nro Chasis" value={form.nro_chasis} onChange={handleChange} required />
             <TextField name="nro_motor" label="Nro Motor" value={form.nro_motor} onChange={handleChange} required />
-            <TextField name="categoria" label="Categoría" value={form.categoria} onChange={handleChange} required />
+            
+            <FormControl fullWidth required>
+              <InputLabel id="categoria-label">Categoría</InputLabel>
+              <Select
+                labelId="categoria-label"
+                name="categoria_id"
+                value={form.categoria_id}
+                onChange={handleChange}
+                label="Categoría"
+              >
+                {categorias.map((cat) => (
+                  <MenuItem key={cat.idCategoria} value={cat.idCategoria}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <Stack direction="row" spacing={2}>
               <Button variant="contained" type="submit" color="success">
                 Guardar
@@ -69,3 +111,4 @@ function CrearVehiculo() {
 }
 
 export default CrearVehiculo;
+
