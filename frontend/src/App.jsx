@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import VehiculosPage from "./components/Vehiculos/VehiculosPage";
+import VehiculosPage from "./components/Vehiculos/VehiculoPage"
 import CrearVehiculo from "./components/Vehiculos/CreateVehiculo";
-import EditarVehiculo from "./components/Vehiculos/EditVehiculo";
+import EditarVehiculo from "./components/Vehiculos/EditarVehiculo";
 import MecanicosList from "./components/Mecanicos/MecanicosPage";
 import CrearMecanico from "./components/Mecanicos/CreateMecanico";
 import ReparacionesList from "./components/Reparaciones/ReparacionesPage";
@@ -19,7 +19,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginForm />} />
-        <Route path="/unathorized" element={<Unauthorized />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
         {/* Acceso para usuarios logueados */}
         <Route

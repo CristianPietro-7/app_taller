@@ -21,7 +21,7 @@ function MecanicosList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/mecanico")
+    fetch("http://localhost:5000/api/mecanicos")
       .then((res) => res.json())
       .then((data) => {
         setMecanicos(data);
@@ -84,7 +84,7 @@ function MecanicosList() {
                   <TableCell>{mecanico.apellido}</TableCell>
                   <TableCell>{mecanico.telefono}</TableCell>
                   <TableCell>{mecanico.email}</TableCell>
-                  <TableCell>{mecanico.especialidad}</TableCell>
+                  <TableCell>{mecanico.especilidad}</TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
                       <Button

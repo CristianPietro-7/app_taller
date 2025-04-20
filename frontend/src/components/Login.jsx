@@ -42,7 +42,14 @@ const LoginForm = () => {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.access_token);
+
+        // Guardar token, rol y usuario
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('rol', data.rol);
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        console.log("Token guardado:", localStorage.getItem('token'));
+
         setSuccess(true);
         navigate('/dashboard'); // Redirige al dashboard
       } else {
@@ -110,5 +117,6 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
 
 

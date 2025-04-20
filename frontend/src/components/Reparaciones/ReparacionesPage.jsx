@@ -14,6 +14,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ReparacionRow from "./ReparacionRow";
 
 function ReparacionesList() {
   const [reparaciones, setReparaciones] = useState([]);
@@ -34,12 +35,12 @@ function ReparacionesList() {
   }, []);
 
   const handleEditar = (id) => {
-    console.log("Editar reparaciones con ID:", id);
-    // navigate(`/editar-reparacion/${id}`); 
+    console.log("Editar reparación con ID:", id);
+    // navigate(`/editar-reparacion/${id}`);
   };
 
   const handleEliminar = (id) => {
-    console.log("Eliminar reparaciones con ID:", id);
+    console.log("Eliminar reparación con ID:", id);
     // lógica para eliminar
   };
 
@@ -54,7 +55,7 @@ function ReparacionesList() {
           Volver
         </Button>
         <Button variant="contained" color="success" onClick={() => navigate("/crear-reparaciones")}>
-          Crear 
+          Crear
         </Button>
       </Stack>
 
@@ -70,39 +71,19 @@ function ReparacionesList() {
                 <TableCell>ID</TableCell>
                 <TableCell>Estado</TableCell>
                 <TableCell>Descripción</TableCell>
-                <TableCell>Vehiculo</TableCell>
+                <TableCell>Vehículo</TableCell>
                 <TableCell>Mecánico</TableCell>
                 <TableCell>Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {reparaciones.map((reparacion) => (
-                <TableRow key={reparacion.idReparacion} hover>
-                  <TableCell>{reparacion.estado}</TableCell>
-                  <TableCell>{reparacion.descripcion}</TableCell>
-                  <TableCell>{reparacion.idVehiculo}</TableCell>
-                  <TableCell>{reparacion.idMecanico}</TableCell>
-                  <TableCell>
-                    <Stack direction="row" spacing={1}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => handleEditar(reparacion.idReparacion)}
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => handleEliminar(reparacion.idReparacion)}
-                      >
-                        Eliminar
-                      </Button>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
+                <ReparacionRow
+                  key={reparacion.idReparacion}
+                  reparacion={reparacion}
+                  onEditar={handleEditar}
+                  onEliminar={handleEliminar}
+                />
               ))}
             </TableBody>
           </Table>

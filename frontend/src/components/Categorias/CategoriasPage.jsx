@@ -21,8 +21,21 @@ function CategoriasList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/categorias")
-      .then((res) => res.json())
+    const token = localStorage.getItem("token"); // Obtener el token
+  
+    fetch("http://localhost:5000/api/categorias", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, // Importante
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Error al autenticar o permisos insuficientes");
+        }
+        return res.json();
+      })
       .then((data) => {
         setCategorias(data);
         setLoading(false);
@@ -32,6 +45,7 @@ function CategoriasList() {
         setLoading(false);
       });
   }, []);
+  
 
   const handleEditar = (id) => {
     console.log("Editar categorias con ID:", id);
@@ -76,6 +90,7 @@ function CategoriasList() {
             <TableBody>
               {categorias.map((categoria) => (
                 <TableRow key={categoria.idCategoria} hover>
+                  <TableCell>{categoria.idCategoria}</TableCell>
                   <TableCell>{categoria.name}</TableCell>
                   <TableCell>{categoria.descripcion}</TableCell>
                   <TableCell>
