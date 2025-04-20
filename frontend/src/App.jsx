@@ -1,33 +1,113 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import VehiculosPage from "./components/Vehiculos/VehiculoPage";
+import VehiculosPage from "./components/Vehiculos/VehiculosPage";
 import CrearVehiculo from "./components/Vehiculos/CreateVehiculo";
-import EditarVehiculo from "./components/Vehiculos/EditarVehiculo";
+import EditarVehiculo from "./components/Vehiculos/EditVehiculo";
 import MecanicosList from "./components/Mecanicos/MecanicosPage";
 import CrearMecanico from "./components/Mecanicos/CreateMecanico";
-import LoginForm from "./components/Login"; 
 import ReparacionesList from "./components/Reparaciones/ReparacionesPage";
 import CrearReparacion from "./components/Reparaciones/CreateReparacion";
 import CategoriasList from "./components/Categorias/CategoriasPage";
 import CrearCategoria from "./components/Categorias/CreateCategiria";
+import LoginForm from "./components/Login";
+import Unauthorized from "./components/Unauthorized";
+import RoleRoute from "./components/RoleRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginForm />} /> 
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/vehiculos" element={<VehiculosPage />} />
-        <Route path="/crear-vehiculo" element={<CrearVehiculo />} />
-        <Route path="/editar-vehiculo/:id" element={<EditarVehiculo />} />
-        <Route path="/mecanicos" element={<MecanicosList />} />
-        <Route path="/crear-mecanico" element={<CrearMecanico />} />
-        <Route path="/reparaciones" element={<ReparacionesList />} />
-        <Route path="/crear-reparacion" element={<CrearReparacion />} />
-        <Route path="/categorias" element={<CategoriasList />} />
-        <Route path="/crear-categoria" element={<CrearCategoria />} />
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/unathorized" element={<Unauthorized />} />
 
+        {/* Acceso para usuarios logueados */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/vehiculos"
+          element={
+            <PrivateRoute>
+              <VehiculosPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/crear-vehiculo"
+          element={
+            <PrivateRoute>
+              <CrearVehiculo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/editar-vehiculo/:id"
+          element={
+            <PrivateRoute>
+              <EditarVehiculo />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Solo admin */}
+        <Route
+          path="/mecanicos"
+          element={
+            <RoleRoute allowedRoles={['admin']}>
+              <MecanicosList />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/crear-mecanico"
+          element={
+            <RoleRoute allowedRoles={['admin']}>
+              <CrearMecanico />
+            </RoleRoute>
+          }
+        />
+
+        {/* Admin y mecánico */}
+        <Route
+          path="/reparaciones"
+          element={
+            <RoleRoute allowedRoles={['admin', 'mecanico']}>
+              <ReparacionesList />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/crear-reparacion"
+          element={
+            <RoleRoute allowedRoles={['admin', 'mecanico']}>
+              <CrearReparacion />
+            </RoleRoute>
+          }
+        />
+
+        {/* Accesible si está logueado */}
+        <Route
+          path="/categorias"
+          element={
+            <PrivateRoute>
+              <CategoriasList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/crear-categoria"
+          element={
+            <PrivateRoute>
+              <CrearCategoria />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );
