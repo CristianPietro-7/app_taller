@@ -17,6 +17,7 @@ def token_required(allowed_roles=None):
                 return jsonify({'error': 'Token faltante'}), 401
 
             data = verify_token(token)
+            print(data)
             if not data:
                 return jsonify({'error': 'Token inválido o expirado'}), 401
 
