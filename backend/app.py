@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 from config.config import DATABASE_CONNECTION_URI
 from flask_cors import CORS
 from models.db import db
@@ -13,7 +14,7 @@ app = Flask(__name__)
 
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"]= DATABASE_CONNECTION_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['JSON_SORT_KEYS'] = False
 
@@ -32,8 +33,8 @@ with app.app_context():
     from models.Usuarios import Usuario
     from models.Mecanicos import Mecanicos
     from models.Reparacion import Reparacion
-    db.drop_all()
+    # db.drop_all()
     db.create_all()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=(os.getenv('FLASK_ENV') == 'development'))
