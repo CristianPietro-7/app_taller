@@ -57,7 +57,7 @@ import {
                 <Button variant="contained" type="submit" color="success">
                   Guardar
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={() => navigate("/categoria")}>
+                <Button variant="outlined" color="secondary" onClick={() => navigate("/categorias")}>
                   Cancelar
                 </Button>
               </Stack>

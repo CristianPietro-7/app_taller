@@ -28,12 +28,24 @@ function CrearVehiculo() {
 
   useEffect(() => {
     const fetchCategorias = async () => {
+      const token = localStorage.getItem("token"); // Asegurate de que esté guardado
       try {
-        const res = await fetch("http://localhost:5000/api/categorias");
+        const res = await fetch("http://localhost:5000/api/categorias", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Error al autenticar o permisos insuficientes");
+        }
+
         const data = await res.json();
-        setCategorias(data); // asegurate de que `data` sea un array de objetos { idCategoria, name, descripcion }
+        setCategorias(data);
       } catch (error) {
-        console.error("Error al cargar categorías:", error);
+        console.error("Error al obtener categorias:", error);
       }
     };
 
@@ -67,7 +79,7 @@ function CrearVehiculo() {
     <Box p={3} maxWidth={600} mx="auto">
       <Paper elevation={3} sx={{ p: 3 }}>
         <Typography variant="h5" gutterBottom>
-          Crear 
+          Crear
         </Typography>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
@@ -111,4 +123,5 @@ function CrearVehiculo() {
 }
 
 export default CrearVehiculo;
+
 
